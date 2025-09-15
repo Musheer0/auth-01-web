@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { auth01Client } from "@/client/auth01-client";
-import { FcGoogle } from "react-icons/fc";
+import { RxGithubLogo } from "react-icons/rx";
 
-export const GoogleSignInButton = () => {
+export const GithubSignInButton = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -15,6 +15,7 @@ export const GoogleSignInButton = () => {
 
     try {
       const redirectUri = process.env.NEXT_PUBLIC_GOOGLE_CALLBACK!;
+      alert(redirectUri)
       const result = await auth01Client.RedirectToGoogleSignIn(redirectUri);
       if(typeof result ==='string'){
         window.location.href = result
@@ -31,14 +32,14 @@ export const GoogleSignInButton = () => {
   };
 
   return (
-    <div className="space-y-2 flex-1">
+    <div className="space-y-2  flex-1">
       <Button
+      
       variant={'oauth'}
         onClick={handleGoogleSignIn}
-        disabled={loading}
-        className=""
+        disabled={true}
       >
-        {loading ? "Redirecting..." : <><FcGoogle />Google</>}
+        {loading ? "Redirecting..." : <><RxGithubLogo />Github</>}
       </Button>
 
       {error && <p className="text-sm text-red-500">{error}</p>}

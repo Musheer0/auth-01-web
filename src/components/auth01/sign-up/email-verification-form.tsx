@@ -17,6 +17,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { auth01Client } from "@/client/auth01-client";
+import OAuthBtns from "../oauth/oauth-btns";
+import { useRouter } from "next/navigation";
 interface EmailFormProps {
   resend?: boolean;
 }
@@ -30,7 +32,7 @@ type FormValues = z.infer<typeof emailSchema>;
 
 export const EmailForm = ({ resend }: EmailFormProps) => {
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
-
+  const router = useRouter()
   const form = useForm<FormValues>({
     resolver: zodResolver(emailSchema),
     defaultValues: {
@@ -47,6 +49,7 @@ export const EmailForm = ({ resend }: EmailFormProps) => {
       if ("error" in data) {
         setStatusMessage(`Error: ${data.error}`);
       } else {
+        router.push('/sign-in?token='+data.verify_token+'&email='+form.getValues('email'))
         setStatusMessage(resend ? "Verification email resent!" : "Verification email sent!");
       }
     },
@@ -55,7 +58,7 @@ export const EmailForm = ({ resend }: EmailFormProps) => {
     },
   });
 
-  const title = resend ? "Resend Verification" : "Email Verification";
+  const title = resend ? "Resend Verification" : "Enter Your Email";
   const description = resend
     ? "Enter your email to resend the verification link"
     : "Enter your email to verify your account";
@@ -71,8 +74,12 @@ export const EmailForm = ({ resend }: EmailFormProps) => {
       description={description}
       footerText="Already verified?"
       footerLinkText="Login"
-      footerLinkHref="/login"
+      footerLinkHref="/sign-in"
     >
+      {!resend && <>
+      <OAuthBtns showOr/>
+      
+      </>}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
@@ -93,9 +100,9 @@ export const EmailForm = ({ resend }: EmailFormProps) => {
               </FormItem>
             )}
           />
-
-          <Button type="submit" className="w-full" disabled={mutation.isPending}>
-            {mutation.isPending ? (resend ? "Resending..." : "Submitting...") : resend ? "Resend" : "Verify"}
+              
+          <Button type="submit" className="w-full " disabled={mutation.isPending}>
+            {mutation.isPending ? (resend ? "Resending..." : "Submitting...") : resend ? "Resend" : "Continue"}
           </Button>
 
           {statusMessage && (

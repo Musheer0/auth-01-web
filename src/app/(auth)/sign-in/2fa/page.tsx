@@ -2,13 +2,9 @@ import { TwoFAForm } from '@/components/auth01/two-fa/twofa-otp-form'
 import React, { Suspense } from 'react'
 
 const page = () => {
-  return (
-    <div>
-      <Suspense>
-        <TwoFAForm/>
-      </Suspense>
-    </div>
-  )
+  return <Suspense>
+    <TwoFAForm/>
+  </Suspense>
 }
 
 export default page

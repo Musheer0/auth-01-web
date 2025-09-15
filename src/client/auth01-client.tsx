@@ -3,6 +3,9 @@ import { Auth01User } from "./types";
 
 export class Auth {
   private base_url = "http://localhost:3001/auth";
+  constructor(){
+    this.base_url="http://localhost:3001/auth"
+  }
   async signUp(
     name: string,
     password: string,
@@ -90,6 +93,9 @@ export class Auth {
       const res = await req.json();
       if (res?.user) {
         return { user: res.user, status: req.status };
+      }
+      if(res?.verification_token){
+        return res
       }
       return {
         error: res?.message || res?.error || "Invalid email or password",
@@ -226,6 +232,7 @@ async ResetPassword(
     const res = await req.json();
 
     if (res?.success) {
+      window.location.replace('/sign-in')
       return { success: true, status: req.status };
     }
 
@@ -262,18 +269,20 @@ async ResendEmailVerification(
 }
 async Me(){
    try {
-  const req = await fetch(`${this.base_url}/me  `, {
+  const req = await fetch(`${this.base_url}/me`, {
     credentials: "include",
     });
 
+    console.log(req.status)
     if (req.status >= 500) {
       return { error: "Internal server error", status: 500 };
     }
 
     const res = await req.json();
-    return {res}
+    return res as Auth01User
     return { error: res?.message || "Failed to resend verification email", status: req.status };
-  } catch {
+  } catch (err){
+    console.log(err)
     return { error: "Internal server error", status: 500 };
   }
 }

@@ -1,6 +1,7 @@
 import { FC, ReactNode } from "react";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import Image from "next/image";
 
 interface CardFormProps {
   title: string;
@@ -20,10 +21,13 @@ export const CardForm: FC<CardFormProps> = ({
   children,
 }) => {
   return (
-    <Card className="w-full max-w-md mx-auto p-6">
+    <Card className="w-full  rounded-3xl  max-w-sm mx-auto p-6">
       <CardHeader className="text-center">
-        <CardTitle>{title}</CardTitle>
-        {description && <CardDescription>{description}</CardDescription>}
+        <div className="logo mx-auto  py-0  px-10 radial-mask">
+          <Image src={'/logo.svg'} alt="logo" width={50} height={50}/>
+        </div>
+        <CardTitle className="leading-none text-xl">{title}</CardTitle>
+        {description && <CardDescription className="leading-none">{description}</CardDescription>}
       </CardHeader>
 
       <CardContent className="space-y-4">{children}</CardContent>

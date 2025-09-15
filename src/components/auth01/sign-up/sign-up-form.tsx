@@ -81,6 +81,7 @@ export const SignUpForm = ({ token_id }: SignUpFormProps) => {
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        {!searchparams.get('email') &&
           <FormField
             control={form.control}
             name="email"
@@ -95,6 +96,7 @@ export const SignUpForm = ({ token_id }: SignUpFormProps) => {
               </FormItem>
             )}
           />
+        }
 
           <FormField
             control={form.control}

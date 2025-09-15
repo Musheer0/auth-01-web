@@ -120,3 +120,11 @@
     @apply bg-background text-foreground;
   }
 }
+
+.radial-mask{
+   -webkit-mask-image: radial-gradient(circle at top, rgba(255,255,255,1) 0%, rgba(255,255,255,0.85) 30%, rgba(255,255,255,0) 70%);
+  mask-image: radial-gradient(circle at top, rgba(255,255,255,1) 0%, rgba(255,255,255,0.85) 30%, rgba(255,255,255,0) 70%);
+  /* smoothing for webkit */
+  -webkit-mask-composite: source-over;
+  mask-composite: add;
+}

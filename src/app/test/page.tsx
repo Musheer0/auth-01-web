@@ -1,28 +1,27 @@
-import { GoogleSignInButton } from '@/components/auth01/oauth/google/login-google-button'
-import { ResetPasswordForm } from '@/components/auth01/reset-password/reset-password-form'
-import { SignInForm } from '@/components/auth01/sign-in/sign-in-form'
-import { EmailForm } from '@/components/auth01/sign-up/email-verification-form'
-import { SignUpForm } from '@/components/auth01/sign-up/sign-up-form'
-import { TwoFAForm } from '@/components/auth01/two-fa/twofa-otp-form'
-import { TwoFASettings } from '@/components/auth01/ui/2fa-state'
-import InitializeUser from '@/components/auth01/user/initialize-user'
-import React from 'react'
+import { FcGoogle } from "react-icons/fc";
+import React from "react";
 
-const page = () => {
+const GoogleLoading = () => {
   return (
- <InitializeUser>
-     <div>
-      <SignInForm/>
-      <TwoFAForm/>
-      <TwoFASettings/>
-
-      {/* <ResetPasswordForm/> */}
-      {/* <EmailForm resend/> */}
-      <GoogleSignInButton/>
-      {/* <SignUpForm token_id='7ba3e9e5-b9c6-45d1-b301-0cf06a9315d2'/> */}
+    <div className="w-full h-screen flex flex-col items-center justify-center bg-white">
+      <FcGoogle className="text-6xl animate-bounce mb-4" />
+      <p className="text-lg font-medium text-gray-700">Signing you in with Google...</p>
+      <div className="mt-6 flex justify-center">
+        <div className="flex space-x-2">
+          {[0, 1, 2].map((i) => (
+            <span
+              key={i}
+              className="w-3 h-3 rounded-full bg-blue-500 animate-bounce"
+              style={{
+                animationDelay: `${i * 0.2}s`,
+                display: "inline-block",
+              }}
+            />
+          ))}
+        </div>
+      </div>
     </div>
- </InitializeUser>
-  )
-}
+  );
+};
 
-export default page
+export default GoogleLoading;

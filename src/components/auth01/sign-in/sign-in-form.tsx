@@ -19,6 +19,7 @@ import * as z from "zod";
 import Link from "next/link";
 import { auth01Client } from "@/client/auth01-client";
 import { useRouter } from "next/navigation";
+import OAuthBtns from "../oauth/oauth-btns";
 
 
 const signInSchema = z.object({
@@ -48,12 +49,13 @@ const router = useRouter()
       if ("error" in data) {
         setStatusMessage(`Error: ${data.error}`);
       } else {
-        if("token" in data){
-          router.push(`/twofa?token=${data.token}`)
+        if("verification_token" in data){
+          router.push(`/twofa?token=${data.verification_token}`)
           setStatusMessage("2FA required. your will be redirected to 2FA page");
           return;
         }
         setStatusMessage("Signed in successfully!");
+        window.location.replace('/dashboard')
       }
     },
     onError: (err) => {
@@ -72,8 +74,9 @@ const router = useRouter()
       description="Enter your credentials to login"
       footerText="Don't have an account?"
       footerLinkText="Sign Up"
-      footerLinkHref="/signup"
+      footerLinkHref="/sign-up"
     >
+      <OAuthBtns showOr/>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           {/* Email */}
@@ -88,7 +91,7 @@ const router = useRouter()
                 </FormControl>
                 <FormMessage />
                 {/* Forgot Password link */}
-                <Link href="/reset-password" className="text-sm text-blue-500 hover:underline mt-1 inline-block">
+                <Link href="/reset-password" className="text-xs ml-auto text-blue-500 hover:underline leading-none inline-block">
                   Forgot password?
                 </Link>
               </FormItem>

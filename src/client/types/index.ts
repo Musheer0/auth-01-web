@@ -5,5 +5,7 @@ export type Auth01User = {
   name: string; // User's full name
   primary_email: string; // Primary email address
   image_url: string; // URL to profile picture
-  is_verified: boolean; // Whether email/account is verified
+  is_verified: boolean; // Whether email/account is verified,
+  twofa_enabled:boolean,
+  twofa_enabled_at:Date|null
 };
